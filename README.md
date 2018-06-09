@@ -5,7 +5,9 @@ This program uses library available at https://github.com/mag1309/java-aws-lex-a
 
 Steps to run the program:
 
-1. Download jar avaiable at https://github.com/mag1309/java-aws-lex-hellworld/releases/download/1.0/lex-hello-word-1.0.jar
+1. Download jar avaiable at https://github.com/mag1309/java-aws-lex-hellworld/releases/download/1.0/lex-hello-word-1.0.jar or
+   clone this repository:  git clone https://github.com/mag1309/java-aws-lex-hellworld.git
+   Later perform a Maven package to build the JAR files: mvn install
 
 2. Go to AWS Lambda(available on AWS Service List) and create a new function. You can give any name to function (i.e. HelloWord), select JDK8 as run time and choose default role to create new lambda function.
 
