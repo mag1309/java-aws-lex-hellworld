@@ -14,6 +14,8 @@ import com.ai.chatbot.framework.request.LexRequest;
 import com.ai.chatbot.framework.response.LexResponse;
 import com.ai.chatbot.framework.response.Message;
 import com.ai.chatbot.framework.response.action.CloseDialogAction;
+import com.ai.chatbot.handlers.NameHandler;
+import com.ai.chatbot.handlers.intents.ProcessGetIntroduction;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -35,7 +37,7 @@ public class HelloHandler extends AbstractLexRequestHandler implements RequestSt
         byte[] responseBytes = null;
         try {
             LexRequest lexRequest = LexRequest.fromJson(requestBytes);
-            
+            LexResponse lexResponse = null;
             if(lexRequest != null)
             {
             	// Get session
@@ -45,15 +47,15 @@ public class HelloHandler extends AbstractLexRequestHandler implements RequestSt
             	else
             		sessionAttributes = new HashMap<>();
             	
-            	// Pull attribute name from Request
-            	String firstName = lexRequest.getCurrentIntent().getSlots().get("firstname");
-            	
-            	// Store is session for future use
-            	saveObjectIntoSession(sessionAttributes,"firstname", firstName, new TypeReference<String>() {});
-            	
-            	// Create Response
-            	LexResponse lexResponse = new LexResponse(new CloseDialogAction("Fulfilled", new Message("PlainText","Hello "+ firstName + ", Hope your are doing great")),sessionAttributes);
-                responseBytes = lexResponse.toJson();
+            	// Get Intent Name
+            	String name = lexRequest.getCurrentIntent().getName();
+            	if (logger.isDebugEnabled()) {
+                    logger.debug("Intent name :", name);
+                }
+            	if(name.equals("Hello"))
+            		lexResponse = processHello(lexRequest, sessionAttributes);
+    	    	
+            	responseBytes = lexResponse.toJson();
                 if (logger.isDebugEnabled()) {
                     logger.debug("Response Json:\n {}", new String(responseBytes));
                 }
@@ -66,5 +68,22 @@ public class HelloHandler extends AbstractLexRequestHandler implements RequestSt
         outputStream.write(responseBytes);
     }  
 	
-	
+	/**
+	 * 
+	 * @param lexRequest
+	 * @param sessionAttributes
+	 * @return
+	 */
+	private LexResponse processHello(LexRequest lexRequest,Map<String,String> sessionAttributes)
+	{
+    	// Pull attribute name from Request
+    	String firstName = lexRequest.getCurrentIntent().getSlots().get("firstname");
+    	
+    	// Store in session for future use
+    	saveObjectIntoSession(sessionAttributes,"firstname", firstName, new TypeReference<String>() {});
+    	
+    	// Create Response
+    	return new LexResponse(new CloseDialogAction("Fulfilled", new Message("PlainText","Hello "+ firstName + ", Hope your are doing great")),sessionAttributes);
+        
+	}
 }
