@@ -1,4 +1,4 @@
-# Java AWS Lambda Lex Helloword Program
+# Java AWS Lambda Lex Hello World Program
 A sample program which ask user to provide their name and display the same with hello string.
 
 This program uses AWS Lambda Lex SDK available at https://github.com/mag1309/java-aws-lambda-lex-sdk.git. This SDK will be installed locally and configuration steps are provided in README file. This SDK is included in pom.xml.
