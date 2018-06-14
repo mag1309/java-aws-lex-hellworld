@@ -14,8 +14,6 @@ import com.ai.chatbot.framework.request.LexRequest;
 import com.ai.chatbot.framework.response.LexResponse;
 import com.ai.chatbot.framework.response.Message;
 import com.ai.chatbot.framework.response.action.CloseDialogAction;
-import com.ai.chatbot.handlers.NameHandler;
-import com.ai.chatbot.handlers.intents.ProcessGetIntroduction;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.core.type.TypeReference;
